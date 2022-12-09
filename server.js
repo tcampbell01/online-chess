@@ -1,8 +1,25 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const db = require("./config/db")
+
+dotenv.config()
 
 const app = express()
 
-const PORT = 5000
+db.connect((err) => {
+    if(err){
+        console.log(err);
+        process.exit(1);
+    }
 
-app.listen(5000,() => console.log(`Server started at http://localhost:${PORT}`))
+    console.log("Connected to MySQL Database...")
+})
+
+app.get("/", (req,res) => {
+    res.send("<h1>Hello from express ()</h1")
+})
+
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT,() => console.log(`Server started at http://localhost:${PORT}`))
 
