@@ -15,7 +15,7 @@ const db = mysql.createConnection({
     host,
     password,
     database,
-    port
+    port,
 
 })
 
