@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const db = require("./config/db");
 const {connectToRedis, redisClient} = require("./config/redis")
+const path = require("path")
 
 const main = async () => {
     const app = express();
@@ -14,6 +15,16 @@ const main = async () => {
         }
 
         console.log("Connected to MySQL Database...");
+    })
+
+    app.set("view engine", "ejs");
+    app.set("views", path.join(__dirname, "views"))
+    app.use(express.static(path.join(__dirname, "public")))
+    app.use(express.json())
+    app.use(express.urlencoded({extended:true}))
+
+    app.get("/", (req, res) => {
+        res.render("index")
     })
 
     await connectToRedis();
